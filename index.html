@@ -153,4 +153,20 @@
                             <i class="fa-solid fa-camera text-emerald-600"></i> Bilateral Fundus Image Acquisition
                         </h2>
 
-                        <div class
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            
+                            <div id="dropzone1" onclick="document.getElementById('fileInput1').click()" class="border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-2xl p-6 text-center bg-slate-50 hover:bg-emerald-50/50 cursor-pointer transition-all relative">
+                                <input type="file" id="fileInput1" accept="image/*" class="hidden" onchange="handleFileSelect(event, 1)">
+                                
+                                <div id="uploadPlaceholder1" class="space-y-2">
+                                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl shadow-inner">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-800">Left Eye (OS)</p>
+                                        <p class="text-xs text-slate-500 mt-1">Click or drop image</p>
+                                    </div>
+                                </div>
+
+                                <div id="previewArea1" class="hidden space-y-2">
+                                    <img id="uploadedImage
