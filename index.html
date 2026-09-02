@@ -81,15 +81,15 @@
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
         <div class="flex border-b border-slate-200 mb-6 bg-white p-1.5 rounded-xl shadow-sm">
-            <button onclick="switchTab('uploadTab')" id="btn-uploadTab" class="tab-btn flex-1 py-2.5 px-4 rounded-lg font-semibold text-sm flex items-center justify-center space-x-2 bg-emerald-600 text-white shadow-md transition-all">
+            <button type="button" onclick="switchTab('uploadTab')" id="btn-uploadTab" class="tab-btn flex-1 py-2.5 px-4 rounded-lg font-semibold text-sm flex items-center justify-center space-x-2 bg-emerald-600 text-white shadow-md transition-all">
                 <i class="fa-solid fa-cloud-arrow-up"></i>
                 <span>1. Patient & Image Upload</span>
             </button>
-            <button onclick="switchTab('resultsTab')" id="btn-resultsTab" class="tab-btn flex-1 py-2.5 px-4 rounded-lg font-semibold text-sm flex items-center justify-center space-x-2 text-slate-600 hover:text-slate-900 transition-all">
+            <button type="button" onclick="switchTab('resultsTab')" id="btn-resultsTab" class="tab-btn flex-1 py-2.5 px-4 rounded-lg font-semibold text-sm flex items-center justify-center space-x-2 text-slate-600 hover:text-slate-900 transition-all">
                 <i class="fa-solid fa-microscope"></i>
                 <span>2. XAI Diagnostic Results</span>
             </button>
-            <button onclick="switchTab('historyTab')" id="btn-historyTab" class="tab-btn flex-1 py-2.5 px-4 rounded-lg font-semibold text-sm flex items-center justify-center space-x-2 text-slate-600 hover:text-slate-900 transition-all">
+            <button type="button" onclick="switchTab('historyTab')" id="btn-historyTab" class="tab-btn flex-1 py-2.5 px-4 rounded-lg font-semibold text-sm flex items-center justify-center space-x-2 text-slate-600 hover:text-slate-900 transition-all">
                 <i class="fa-solid fa-folder-open"></i>
                 <span>3. Patient Records</span>
             </button>
@@ -153,47 +153,4 @@
                             <i class="fa-solid fa-camera text-emerald-600"></i> Bilateral Fundus Image Acquisition
                         </h2>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            
-                            <div id="dropzone1" onclick="document.getElementById('fileInput1').click()" class="border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-2xl p-6 text-center bg-slate-50 hover:bg-emerald-50/50 cursor-pointer transition-all relative">
-                                <input type="file" id="fileInput1" accept="image/*" class="hidden" onchange="handleFileSelect(event, 1)">
-                                
-                                <div id="uploadPlaceholder1" class="space-y-2">
-                                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl shadow-inner">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-semibold text-slate-800">Left Eye (OS)</p>
-                                        <p class="text-xs text-slate-500 mt-1">Click or drop image</p>
-                                    </div>
-                                </div>
-
-                                <div id="previewArea1" class="hidden space-y-2">
-                                    <img id="uploadedImage1" src="" alt="Left Retinal Preview" class="h-32 mx-auto rounded-lg shadow-sm border border-slate-200 object-cover w-full">
-                                    <p id="fileName1" class="text-[10px] font-mono font-semibold text-emerald-700 truncate"></p>
-                                </div>
-                            </div>
-
-                            <div id="dropzone2" onclick="document.getElementById('fileInput2').click()" class="border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-2xl p-6 text-center bg-slate-50 hover:bg-emerald-50/50 cursor-pointer transition-all relative">
-                                <input type="file" id="fileInput2" accept="image/*" class="hidden" onchange="handleFileSelect(event, 2)">
-                                
-                                <div id="uploadPlaceholder2" class="space-y-2">
-                                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl shadow-inner">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-semibold text-slate-800">Right Eye (OD)</p>
-                                        <p class="text-xs text-slate-500 mt-1">Click or drop image</p>
-                                    </div>
-                                </div>
-
-                                <div id="previewArea2" class="hidden space-y-2">
-                                    <img id="uploadedImage2" src="" alt="Right Retinal Preview" class="h-32 mx-auto rounded-lg shadow-sm border border-slate-200 object-cover w-full">
-                                    <p id="fileName2" class="text-[10px] font-mono font-semibold text-emerald-700 truncate"></p>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="mt-5 flex flex-wrap gap-3 justify-between items-center border-t border-slate-100 pt-4">
-                            <button onclick="loadSampleImage()" class="text-xs font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-200 transition-colors">
+                        <div class
