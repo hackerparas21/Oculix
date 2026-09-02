@@ -15,6 +15,14 @@
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
                     },
                     colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            900: '#14532d',
+                        },
                         slateDark: '#0f172a',
                     }
                 }
@@ -22,15 +30,16 @@
         }
     </script>
     <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
         .heatmap-overlay {
             mix-blend-mode: hard-light;
             opacity: 0.75;
             transition: opacity 0.3s ease;
         }
-        /* Custom scrollbar for a cleaner look */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
@@ -38,13 +47,13 @@
     <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-400 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
                     <i class="fa-solid font-bold text-xl fa-eye"></i>
                 </div>
                 <div>
                     <div class="flex items-center space-x-2">
-                        <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">Oculix</span>
-                        <span class="bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-blue-500/30">SIH 2026</span>
+                        <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-emerald-400 bg-clip-text text-transparent">Oculix</span>
+                        <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">SIH 2026 TOPIC</span>
                     </div>
                     <p class="text-[11px] text-slate-400">Explainable AI Retinal Screening • Rural Telemedicine Unit</p>
                 </div>
@@ -53,120 +62,194 @@
             <div class="flex items-center space-x-6">
                 <div class="hidden md:flex items-center space-x-4 border-r border-slate-700 pr-6">
                     <div class="text-right">
-                        <p class="text-xs text-slate-400">Operator</p>
-                        <p class="text-xs font-semibold text-slate-200"><i class="fa-solid fa-id-badge text-blue-400 mr-1"></i> ID: HW-UP-8842</p>
+                        <p class="text-xs text-slate-400">Health Worker / Operator</p>
+                        <p class="text-xs font-semibold text-slate-200"><i class="fa-solid fa-id-badge text-emerald-400 mr-1"></i> ID: HW-UP-8842</p>
                     </div>
                     <div class="text-right">
-                        <p class="text-xs text-slate-400">Location</p>
-                        <p class="text-xs font-semibold text-slate-200"><i class="fa-solid fa-location-dot text-rose-400 mr-1"></i> PHC Rampur</p>
+                        <p class="text-xs text-slate-400">Center Location</p>
+                        <p class="text-xs font-semibold text-slate-200"><i class="fa-solid fa-location-dot text-rose-400 mr-1"></i> PHC Rampur, UP</p>
                     </div>
                 </div>
+
                 <div class="flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
-                    <span class="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></span>
-                    <span class="text-xs text-slate-300 font-medium">Edge AI Ready</span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-xs text-slate-300 font-medium">Edge AI Ready (Offline Mode)</span>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="flex-grow max-w-[90rem] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
-        <div class="flex border-b border-slate-200 mb-6 bg-white p-1.5 rounded-xl shadow-sm max-w-4xl mx-auto">
-            <button onclick="switchTab('uploadTab')" id="btn-uploadTab" class="tab-btn flex-1 py-2.5 px-4 rounded-lg font-semibold text-sm flex items-center justify-center space-x-2 bg-blue-600 text-white shadow-md transition-all">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                <span>1. Bilateral Image Upload</span>
+        <div class="flex border-b border-slate-200 mb-6 bg-white p-1.5 rounded-xl shadow-sm overflow-x-auto gap-1">
+            <button onclick="switchTab('patientTab')" id="btn-patientTab" class="tab-btn flex-1 min-w-[140px] py-2.5 px-3 rounded-lg font-semibold text-xs flex items-center justify-center space-x-2 bg-emerald-600 text-white shadow-md transition-all">
+                <i class="fa-solid fa-user"></i>
+                <span>1. Patient Profile</span>
             </button>
-            <button onclick="switchTab('resultsTab')" id="btn-resultsTab" class="tab-btn flex-1 py-2.5 px-4 rounded-lg font-semibold text-sm flex items-center justify-center space-x-2 text-slate-600 hover:text-slate-900 transition-all">
+            <button onclick="switchTab('leftEyeTab')" id="btn-leftEyeTab" class="tab-btn flex-1 min-w-[140px] py-2.5 px-3 rounded-lg font-semibold text-xs flex items-center justify-center space-x-2 text-slate-600 hover:text-slate-900 transition-all">
+                <i class="fa-solid fa-eye"></i>
+                <span>2. Left Eye (OS)</span>
+            </button>
+            <button onclick="switchTab('rightEyeTab')" id="btn-rightEyeTab" class="tab-btn flex-1 min-w-[140px] py-2.5 px-3 rounded-lg font-semibold text-xs flex items-center justify-center space-x-2 text-slate-600 hover:text-slate-900 transition-all">
+                <i class="fa-solid fa-eye"></i>
+                <span>3. Right Eye (OD)</span>
+            </button>
+            <button onclick="switchTab('resultsTab')" id="btn-resultsTab" class="tab-btn flex-1 min-w-[140px] py-2.5 px-3 rounded-lg font-semibold text-xs flex items-center justify-center space-x-2 text-slate-600 hover:text-slate-900 transition-all">
                 <i class="fa-solid fa-microscope"></i>
-                <span>2. XAI Diagnostic Results</span>
+                <span>4. XAI Results</span>
+            </button>
+            <button onclick="switchTab('historyTab')" id="btn-historyTab" class="tab-btn flex-1 min-w-[130px] py-2.5 px-3 rounded-lg font-semibold text-xs flex items-center justify-center space-x-2 text-slate-600 hover:text-slate-900 transition-all">
+                <i class="fa-solid fa-folder-open"></i>
+                <span>5. Records</span>
             </button>
         </div>
 
-        <div id="uploadTab" class="tab-content space-y-6">
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                
-                <div class="lg:col-span-1 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm h-fit">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-                        <h2 class="font-bold text-slate-900 flex items-center gap-2">
-                            <i class="fa-solid fa-user-gear text-blue-600"></i> Patient Info
+        <div id="patientTab" class="tab-content space-y-6">
+            <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="font-bold text-slate-900 text-lg flex items-center gap-2">
+                            <i class="fa-solid fa-user-gear text-emerald-600"></i> Patient Demographics & Medical History
                         </h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Enter beneficiary information prior to capturing retinal fundus scans.</p>
                     </div>
-                    <form class="space-y-4">
+                    <span class="text-xs bg-slate-100 font-mono text-slate-600 px-2.5 py-1 rounded-lg">Auto ID Generated</span>
+                </div>
+
+                <form class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Patient ID</label>
-                            <input type="text" value="PAT-2026-9041" readonly class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm font-mono text-slate-700 font-semibold focus:outline-none">
+                            <input type="text" id="patientId" value="PAT-2026-9041" readonly class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm font-mono text-slate-700 font-semibold focus:outline-none">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Full Name</label>
-                            <input type="text" placeholder="e.g. Ramesh Kumar" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Age</label>
-                                <input type="number" placeholder="54" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">HbA1c (%)</label>
-                                <input type="text" value="8.4" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="lg:col-span-3 space-y-4">
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                        <div class="flex items-center justify-between mb-4">
-                            <h2 class="font-bold text-slate-900 flex items-center gap-2">
-                                <i class="fa-solid fa-camera text-blue-600"></i> Bilateral Fundus Acquisition
-                            </h2>
-                            <span class="text-xs font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">Upload one or both eyes</span>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-2">
-                                <label class="block text-sm font-bold text-slate-700 text-center uppercase tracking-wide">Left Eye (OS)</label>
-                                <div id="dropzone-left" onclick="document.getElementById('file-left').click()" class="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-xl p-6 text-center bg-slate-50 hover:bg-blue-50/50 cursor-pointer transition-all h-64 flex flex-col justify-center relative overflow-hidden">
-                                    <input type="file" id="file-left" accept="image/*" class="hidden" onchange="handleFileSelect(event, 'left')">
-                                    
-                                    <div id="placeholder-left" class="space-y-2">
-                                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto text-xl shadow-inner">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </div>
-                                        <p class="text-xs font-semibold text-slate-800">Click or Drag Left Eye Image</p>
-                                    </div>
-                                    <img id="preview-left" src="" class="hidden absolute inset-0 w-full h-full object-cover">
-                                </div>
-                                <div id="status-left" class="text-center text-xs font-semibold text-slate-400 py-1">Awaiting Image...</div>
-                            </div>
-
-                            <div class="space-y-2">
-                                <label class="block text-sm font-bold text-slate-700 text-center uppercase tracking-wide">Right Eye (OD)</label>
-                                <div id="dropzone-right" onclick="document.getElementById('file-right').click()" class="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-xl p-6 text-center bg-slate-50 hover:bg-blue-50/50 cursor-pointer transition-all h-64 flex flex-col justify-center relative overflow-hidden">
-                                    <input type="file" id="file-right" accept="image/*" class="hidden" onchange="handleFileSelect(event, 'right')">
-                                    
-                                    <div id="placeholder-right" class="space-y-2">
-                                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto text-xl shadow-inner">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </div>
-                                        <p class="text-xs font-semibold text-slate-800">Click or Drag Right Eye Image</p>
-                                    </div>
-                                    <img id="preview-right" src="" class="hidden absolute inset-0 w-full h-full object-cover">
-                                </div>
-                                <div id="status-right" class="text-center text-xs font-semibold text-slate-400 py-1">Awaiting Image...</div>
-                            </div>
-                        </div>
-
-                        <div class="mt-6 flex flex-wrap gap-3 justify-between items-center border-t border-slate-100 pt-4">
-                            <button onclick="loadSampleImages()" class="text-xs font-semibold text-blue-700 hover:text-blue-800 bg-blue-50 px-3 py-2 rounded-lg border border-blue-200 transition-colors">
-                                <i class="fa-solid fa-flask mr-1"></i> Load Demo (Both Eyes)
-                            </button>
-
-                            <button id="analyzeBtn" onclick="runDiagnostic()" disabled class="bg-slate-300 text-slate-500 px-8 py-3 rounded-xl font-bold text-sm shadow flex items-center gap-2 cursor-not-allowed transition-all">
-                                <span>Run Oculix Scan</span>
-                                <i class="fa-solid fa-microchip"></i>
-                            </button>
+                            <input type="text" placeholder="e.g. Ramesh Kumar" value="Ramesh Kumar" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                         </div>
                     </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Age</label>
+                            <input type="number" value="54" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Gender</label>
+                            <select class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                <option selected>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Diabetic History</label>
+                            <select class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                <option>&lt; 5 Years</option>
+                                <option selected>5-10 Years</option>
+                                <option>&gt; 10 Years</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">HbA1c Level (%)</label>
+                            <input type="text" value="8.4" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex justify-end">
+                        <button type="button" onclick="switchTab('leftEyeTab')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl shadow transition-all flex items-center gap-2">
+                            <span>Proceed to Left Eye Upload</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="leftEyeTab" class="tab-content hidden space-y-6">
+            <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="font-bold text-slate-900 text-lg flex items-center gap-2">
+                            <i class="fa-solid fa-eye text-emerald-600"></i> Left Eye (OS) Fundus Image Upload
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Upload a clear 45° macula-centered fundus photo of the left eye.</p>
+                    </div>
+                    <span class="bg-blue-50 text-blue-700 border border-blue-200 text-xs px-2.5 py-1 rounded-lg font-bold">OS Scan</span>
+                </div>
+
+                <div id="dropzone-left" onclick="document.getElementById('fileInputLeft').click()" class="border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-2xl p-8 text-center bg-slate-50 hover:bg-emerald-50/50 cursor-pointer transition-all relative">
+                    <input type="file" id="fileInputLeft" accept="image/*" class="hidden" onchange="handleFileSelect(event, 'left')">
+                    
+                    <div id="uploadPlaceholderLeft" class="space-y-3">
+                        <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-800">Click or drag Left Eye fundus image here</p>
+                            <p class="text-xs text-slate-500 mt-1">Supports PNG, JPG, DICOM (Max 15MB)</p>
+                        </div>
+                    </div>
+
+                    <div id="previewAreaLeft" class="hidden space-y-3">
+                        <img id="uploadedImageLeft" src="" alt="Left Eye Preview" class="max-h-48 mx-auto rounded-lg shadow-md border border-slate-200 object-cover">
+                        <p id="fileNameLeft" class="text-xs font-mono font-semibold text-emerald-700"></p>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-2">
+                    <button type="button" onclick="loadSampleImage('left')" class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition-colors">
+                        <i class="fa-solid fa-flask mr-1"></i> Load Sample Left Eye Image
+                    </button>
+                    <button type="button" onclick="switchTab('rightEyeTab')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl shadow transition-all flex items-center gap-2">
+                        <span>Proceed to Right Eye</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="rightEyeTab" class="tab-content hidden space-y-6">
+            <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="font-bold text-slate-900 text-lg flex items-center gap-2">
+                            <i class="fa-solid fa-eye text-emerald-600"></i> Right Eye (OD) Fundus Image Upload
+                        </h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Upload a clear 45° macula-centered fundus photo of the right eye.</p>
+                    </div>
+                    <span class="bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs px-2.5 py-1 rounded-lg font-bold">OD Scan</span>
+                </div>
+
+                <div id="dropzone-right" onclick="document.getElementById('fileInputRight').click()" class="border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-2xl p-8 text-center bg-slate-50 hover:bg-emerald-50/50 cursor-pointer transition-all relative">
+                    <input type="file" id="fileInputRight" accept="image/*" class="hidden" onchange="handleFileSelect(event, 'right')">
+                    
+                    <div id="uploadPlaceholderRight" class="space-y-3">
+                        <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-800">Click or drag Right Eye fundus image here</p>
+                            <p class="text-xs text-slate-500 mt-1">Supports PNG, JPG, DICOM (Max 15MB)</p>
+                        </div>
+                    </div>
+
+                    <div id="previewAreaRight" class="hidden space-y-3">
+                        <img id="uploadedImageRight" src="" alt="Right Eye Preview" class="max-h-48 mx-auto rounded-lg shadow-md border border-slate-200 object-cover">
+                        <p id="fileNameRight" class="text-xs font-mono font-semibold text-emerald-700"></p>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-2">
+                    <button type="button" onclick="loadSampleImage('right')" class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition-colors">
+                        <i class="fa-solid fa-flask mr-1"></i> Load Sample Right Eye Image
+                    </button>
+                    <button id="analyzeBtn" onclick="runDiagnostic()" disabled class="bg-slate-300 text-slate-500 font-bold text-sm px-6 py-2.5 rounded-xl shadow cursor-not-allowed transition-all flex items-center gap-2">
+                        <span>Run XAI Diagnostic Scan</span>
+                        <i class="fa-solid fa-microchip"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -175,244 +258,278 @@
             
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
                 <div class="flex items-center space-x-4">
-                    <div class="w-10 h-10 bg-slate-900 text-white rounded-xl flex items-center justify-center font-bold">
+                    <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center font-bold text-lg">
                         <i class="fa-solid fa-hospital-user"></i>
                     </div>
                     <div>
-                        <h2 class="font-bold text-slate-900 text-sm">Ramesh Kumar (PAT-2026-9041)</h2>
-                        <p class="text-[11px] text-slate-500">Oculix Automated DR Screening Report • Sep 02, 2026</p>
+                        <div class="flex items-center gap-2">
+                            <h2 class="font-bold text-slate-900 text-base">Patient: Ramesh Kumar</h2>
+                            <span class="bg-slate-100 font-mono text-xs px-2 py-0.5 rounded text-slate-600">ID: PAT-2026-9041</span>
+                        </div>
+                        <p class="text-xs text-slate-500">Scan Time: 02 Sep 2026, 15:05 IST • Primary Telemedicine Referral Unit</p>
                     </div>
                 </div>
-                <div class="flex items-center space-x-2 bg-slate-100 p-1 rounded-lg border border-slate-200">
-                    <button id="toggleOriginal" onclick="setVisualMode('original')" class="px-3 py-1.5 text-xs font-bold rounded-md bg-white shadow text-slate-800">Raw Scans</button>
-                    <button id="toggleHeatmap" onclick="setVisualMode('heatmap')" class="px-3 py-1.5 text-xs font-bold rounded-md text-slate-500 hover:text-slate-800 flex items-center gap-1"><i class="fa-solid fa-fire text-amber-500"></i> XAI Heatmaps</button>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
-                <div id="result-panel-left" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col opacity-50 grayscale transition-all duration-300">
-                    <div class="bg-slate-50 border-b border-slate-200 px-4 py-3 flex justify-between items-center">
-                        <h3 class="font-bold text-slate-800 uppercase tracking-wide text-sm">Left Eye (OS)</h3>
-                        <span id="badge-left" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-600">No Image</span>
-                    </div>
-                    
-                    <div class="relative w-full aspect-video bg-slate-900 flex items-center justify-center border-b border-slate-200 group overflow-hidden">
-                        <img id="res-img-left" src="" class="w-full h-full object-cover hidden">
-                        <div class="text-slate-600 text-xs flex flex-col items-center placeholder-text"><i class="fa-solid fa-eye-slash mb-1 text-lg"></i> Not Scanned</div>
-                        
-                        <div class="heatmap-layer hidden absolute inset-0 heatmap-overlay pointer-events-none opacity-0 transition-opacity duration-300 bg-gradient-to-br from-transparent via-red-600/60 to-yellow-400/70" style="background-image: radial-gradient(circle at 40% 60%, rgba(239, 68, 68, 0.8) 0%, rgba(234, 179, 8, 0.5) 30%, transparent 70%);"></div>
-                        <div class="hotspot-marker hidden absolute top-[50%] left-[35%] w-12 h-12 border-2 border-red-500 rounded-full animate-ping opacity-75"></div>
-                    </div>
-
-                    <div class="p-5 flex-grow space-y-4">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">AI Diagnosis</p>
-                                <h4 id="diag-left" class="text-lg font-black text-slate-400">N/A</h4>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">Confidence</p>
-                                <span id="conf-left" class="text-lg font-black text-slate-400">-</span>
-                            </div>
-                        </div>
-                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-                            <p class="text-[10px] font-bold text-slate-500 uppercase mb-1">Explainable Features:</p>
-                            <p id="desc-left" class="text-xs text-slate-400">No data available for left eye.</p>
-                        </div>
-                    </div>
+                <div class="flex items-center gap-3">
+                    <button class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold px-4 py-2 rounded-lg border border-slate-300 transition-colors flex items-center gap-1.5">
+                        <i class="fa-solid fa-print"></i> Export Telemedicine PDF
+                    </button>
+                    <button class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow transition-colors flex items-center gap-1.5">
+                        <i class="fa-solid fa-share-nodes"></i> Send to District Ophthalmologist
+                    </button>
                 </div>
-
-                <div id="result-panel-right" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col opacity-50 grayscale transition-all duration-300">
-                    <div class="bg-slate-50 border-b border-slate-200 px-4 py-3 flex justify-between items-center">
-                        <h3 class="font-bold text-slate-800 uppercase tracking-wide text-sm">Right Eye (OD)</h3>
-                        <span id="badge-right" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-600">No Image</span>
-                    </div>
-                    
-                    <div class="relative w-full aspect-video bg-slate-900 flex items-center justify-center border-b border-slate-200 group overflow-hidden">
-                        <img id="res-img-right" src="" class="w-full h-full object-cover hidden">
-                        <div class="text-slate-600 text-xs flex flex-col items-center placeholder-text"><i class="fa-solid fa-eye-slash mb-1 text-lg"></i> Not Scanned</div>
-                        
-                        <div class="heatmap-layer hidden absolute inset-0 heatmap-overlay pointer-events-none opacity-0 transition-opacity duration-300 bg-gradient-to-tr from-transparent via-red-600/70 to-yellow-400/80" style="background-image: radial-gradient(circle at 65% 45%, rgba(239, 68, 68, 0.9) 0%, rgba(245, 158, 11, 0.6) 25%, transparent 60%);"></div>
-                        <div class="hotspot-marker hidden absolute top-[38%] left-[60%] w-14 h-14 border-2 border-red-500 rounded-full animate-ping opacity-75"></div>
-                    </div>
-
-                    <div class="p-5 flex-grow space-y-4">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">AI Diagnosis</p>
-                                <h4 id="diag-right" class="text-lg font-black text-slate-400">N/A</h4>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider mb-1">Confidence</p>
-                                <span id="conf-right" class="text-lg font-black text-slate-400">-</span>
-                            </div>
-                        </div>
-                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-                            <p class="text-[10px] font-bold text-slate-500 uppercase mb-1">Explainable Features:</p>
-                            <p id="desc-right" class="text-xs text-slate-400">No data available for right eye.</p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
-            <div id="triage-banner" class="bg-slate-900 text-white p-5 rounded-2xl shadow-md hidden flex items-center justify-between border border-slate-800">
-                <div>
-                    <h4 class="font-bold text-sm text-blue-400 flex items-center gap-2">
-                        <i class="fa-solid fa-truck-medical"></i> Automated Triage Decision
-                    </h4>
-                    <p class="text-xs text-slate-300 mt-1">Based on bilateral analysis, immediate telemedicine referral to district ophthalmologist is advised.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-eye-low-vision text-emerald-600"></i> Explainable AI Attention Visualizer
+                        </h3>
+                        <div class="flex items-center space-x-2 bg-slate-100 p-1 rounded-lg border border-slate-200">
+                            <button id="toggleOriginal" onclick="setVisualMode('original')" class="px-3 py-1 text-xs font-bold rounded-md bg-white shadow text-slate-800">Raw Scan</button>
+                            <button id="toggleHeatmap" onclick="setVisualMode('heatmap')" class="px-3 py-1 text-xs font-bold rounded-md text-slate-500 hover:text-slate-800">Grad-CAM Heatmap</button>
+                        </div>
+                    </div>
+
+                    <div class="relative w-full aspect-video bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center border border-slate-800 shadow-inner group">
+                        <img id="visualFundus" src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80" alt="Retinal Fundus" class="w-full h-full object-cover">
+                        
+                        <div id="heatmapLayer" class="absolute inset-0 heatmap-overlay pointer-events-none opacity-0 transition-opacity duration-300 bg-gradient-to-tr from-transparent via-red-600/60 to-yellow-400/70" style="background-image: radial-gradient(circle at 60% 45%, rgba(239, 68, 68, 0.8) 0%, rgba(234, 179, 8, 0.6) 25%, transparent 60%);"></div>
+
+                        <div id="hotspotMarker" class="absolute top-[38%] left-[55%] w-16 h-16 border-2 border-red-500 rounded-full animate-ping opacity-75 hidden"></div>
+                        <div class="absolute bottom-3 left-3 bg-slate-900/80 backdrop-blur text-white text-[11px] px-3 py-1 rounded-full border border-slate-700 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                            <span>Model Architecture: EfficientNet-B4 + Vision Transformer (ViT)</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Key Pathological Regions Highlighted by Model:</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-red-50 text-red-700 border border-red-200 text-xs px-2.5 py-1 rounded-md font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-circle-dot text-red-500"></i> Microaneurysms (3 detected)
+                            </span>
+                            <span class="bg-amber-50 text-amber-700 border border-amber-200 text-xs px-2.5 py-1 rounded-md font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-triangle-exclamation text-amber-500"></i> Hard Exudates (Temporal Macula)
+                            </span>
+                            <span class="bg-slate-100 text-slate-700 border border-slate-200 text-xs px-2.5 py-1 rounded-md font-semibold">
+                                Optic Disc: Clear Margins
+                            </span>
+                        </div>
+                    </div>
                 </div>
-                <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-xs font-bold transition-colors">
-                    Send Referral <i class="fa-solid fa-arrow-right ml-1"></i>
-                </button>
+
+                <div class="lg:col-span-5 space-y-6">
+                    
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <span class="text-xs font-extrabold tracking-wider text-slate-400 uppercase">AI Diagnosis Classification</span>
+                        
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h4 class="text-2xl font-black text-amber-600">Moderate NPDR</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">Non-Proliferative Diabetic Retinopathy (Grade 2)</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-black text-slate-900">94.2%</div>
+                                <p class="text-[11px] font-semibold text-emerald-600">High Model Confidence</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5 pt-2">
+                            <div class="flex justify-between text-[11px] font-bold text-slate-600">
+                                <span>No DR</span>
+                                <span>Mild</span>
+                                <span class="text-amber-600 font-extrabold">Moderate</span>
+                                <span>Severe</span>
+                                <span>PDR</span>
+                            </div>
+                            <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden flex p-0.5 border border-slate-200">
+                                <div class="h-full bg-emerald-400 w-1/5 rounded-l-full"></div>
+                                <div class="h-full bg-yellow-400 w-1/5"></div>
+                                <div class="h-full bg-amber-500 w-1/5 ring-2 ring-slate-900"></div>
+                                <div class="h-full bg-orange-500 w-1/5"></div>
+                                <div class="h-full bg-red-600 w-1/5 rounded-r-full"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-emerald-900 text-white p-6 rounded-2xl shadow-md space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-sm text-emerald-300 flex items-center gap-2">
+                                <i class="fa-solid fa-user-doctor"></i> Action Plan for Rural Telemedicine
+                            </h4>
+                            <span class="bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[10px] font-bold px-2 py-0.5 rounded">Triage Priority: Medium</span>
+                        </div>
+                        <ul class="text-xs space-y-2 text-emerald-100 list-disc list-inside">
+                            <li>Schedule comprehensive tele-ophthalmology review within <strong>3-4 weeks</strong>.</li>
+                            <li>Glycemic Control Advisory: Send automated SMS alert to patient regarding HbA1c threshold.</li>
+                            <li>Re-scan recommended in 6 months at local PHC.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                        <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-brain text-emerald-600"></i> Why did the AI make this decision?
+                        </h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            The visual attention mechanism focused primary weight on <strong>hemorrhage clusters in the inferior macula region</strong> (68% attribution score) and localized lipid exudates near the vessel arches.
+                        </p>
+                    </div>
+
+                </div>
+
             </div>
         </div>
+
+        <div id="historyTab" class="tab-content hidden space-y-4">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-slate-900">Recent Telemedicine Screenings (PHC Rampur)</h3>
+                    <input type="text" placeholder="Search by Patient ID or Name..." class="border border-slate-200 rounded-lg px-3 py-1.5 text-xs w-64 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs text-slate-600">
+                        <thead class="bg-slate-50 text-slate-700 uppercase font-bold text-[10px]">
+                            <tr>
+                                <th class="p-3 rounded-l-lg">Patient ID</th>
+                                <th class="p-3">Name & Age</th>
+                                <th class="p-3">Screening Date</th>
+                                <th class="p-3">AI Finding</th>
+                                <th class="p-3">Confidence</th>
+                                <th class="p-3">Status</th>
+                                <th class="p-3 rounded-r-lg">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-mono font-bold text-slate-900">PAT-2026-9041</td>
+                                <td class="p-3 font-medium text-slate-800">Ramesh Kumar (54M)</td>
+                                <td class="p-3">02 Sep 2026</td>
+                                <td class="p-3 font-semibold text-amber-600">Moderate NPDR</td>
+                                <td class="p-3">94.2%</td>
+                                <td class="p-3"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full text-[10px] font-bold">Referred</span></td>
+                                <td class="p-3"><button onclick="switchTab('resultsTab')" class="text-emerald-600 font-bold hover:underline">View XAI</button></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 font-mono font-bold text-slate-900">PAT-2026-8910</td>
+                                <td class="p-3 font-medium text-slate-800">Sunita Devi (48F)</td>
+                                <td class="p-3">01 Sep 2026</td>
+                                <td class="p-3 font-semibold text-emerald-600">No DR Detected</td>
+                                <td class="p-3">98.7%</td>
+                                <td class="p-3"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full text-[10px] font-bold">Cleared</span></td>
+                                <td class="p-3"><button onclick="switchTab('resultsTab')" class="text-emerald-600 font-bold hover:underline">View XAI</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <footer class="bg-white border-t border-slate-200 py-4 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-            <p>© 2026 Oculix Dashboard • Engineered for Smart India Hackathon</p>
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
+            <p>© 2026 Oculix • Smart India Hackathon Prototype</p>
+            <p class="mt-2 sm:mt-0"><i class="fa-solid fa-heart text-rose-500 mr-1"></i> Developed for Rural Health AI Accessibility</p>
         </div>
     </footer>
 
     <script>
-        let uploads = { left: false, right: false };
+        let uploadedState = { left: false, right: false };
 
-        // Tab Management
+        // Tab Switch Logic
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.getElementById(tabId).classList.remove('hidden');
 
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-md');
+                btn.classList.remove('bg-emerald-600', 'text-white', 'shadow-md');
                 btn.classList.add('text-slate-600');
             });
 
             const activeBtn = document.getElementById('btn-' + tabId);
-            activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
+            activeBtn.classList.add('bg-emerald-600', 'text-white', 'shadow-md');
             activeBtn.classList.remove('text-slate-600');
         }
 
-        // Handle Bilateral File Selection
-        function handleFileSelect(event, eye) {
+        // File Upload Handling for Left/Right
+        function handleFileSelect(event, side) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    processImageUpload(e.target.result, eye);
+                    displayImage(e.target.result, file.name, side);
                 };
                 reader.readAsDataURL(file);
             }
         }
 
-        // Demo Data Loader
-        function loadSampleImages() {
-            const sampleLeft = "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80"; 
-            const sampleRight = "https://images.unsplash.com/photo-1588056801550-9a4f21db5390?auto=format&fit=crop&w=800&q=80"; // Using different unspash for variance
-            
-            processImageUpload(sampleLeft, 'left');
-            processImageUpload(sampleRight, 'right');
+        function loadSampleImage(side) {
+            const sampleUrl = "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80";
+            displayImage(sampleUrl, `Sample_Rural_Fundus_${side.toUpperCase()}.jpg`, side);
         }
 
-        // Update UI upon image upload
-        function processImageUpload(src, eye) {
-            uploads[eye] = true;
-            
-            // Update Upload Dropzone
-            document.getElementById(`placeholder-${eye}`).classList.add('hidden');
-            const preview = document.getElementById(`preview-${eye}`);
-            preview.src = src;
-            preview.classList.remove('hidden');
-            
-            document.getElementById(`dropzone-${eye}`).classList.remove('border-dashed', 'border-slate-300');
-            document.getElementById(`dropzone-${eye}`).classList.add('border-solid', 'border-blue-500');
-            
-            document.getElementById(`status-${eye}`).innerHTML = `<span class="text-blue-600"><i class="fa-solid fa-check-circle"></i> Image Secured</span>`;
+        function displayImage(src, name, side) {
+            uploadedState[side] = true;
 
-            // Prep Results Tab
-            const resPanel = document.getElementById(`result-panel-${eye}`);
-            resPanel.classList.remove('opacity-50', 'grayscale');
-            
-            const resImg = document.getElementById(`res-img-${eye}`);
-            resImg.src = src;
-            resImg.classList.remove('hidden');
-            resPanel.querySelector('.placeholder-text').classList.add('hidden');
+            document.getElementById(`uploadPlaceholder${capitalize(side)}`).classList.add('hidden');
+            document.getElementById(`previewArea${capitalize(side)}`).classList.remove('hidden');
+            document.getElementById(`uploadedImage${capitalize(side)}`).src = src;
+            document.getElementById(`fileName${capitalize(side)}`).innerText = 'Selected File: ' + name;
 
-            checkReadyState();
-        }
+            if (side === 'left') {
+                document.getElementById('visualFundus').src = src;
+            }
 
-        // Enable Analyze button if at least one image is uploaded
-        function checkReadyState() {
-            if (uploads.left || uploads.right) {
+            // Enable Analyze Button if at least one image is loaded
+            if (uploadedState.left || uploadedState.right) {
                 const btn = document.getElementById('analyzeBtn');
                 btn.disabled = false;
                 btn.classList.remove('bg-slate-300', 'text-slate-500', 'cursor-not-allowed');
-                btn.classList.add('bg-blue-600', 'hover:bg-blue-700', 'text-white', 'shadow-lg');
+                btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700', 'text-white', 'shadow-lg');
             }
         }
 
-        // Run Diagnostic Simulation
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Diagnostic Trigger Simulation
         function runDiagnostic() {
             const btn = document.getElementById('analyzeBtn');
-            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Processing Model...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Processing Model Saliency...`;
 
             setTimeout(() => {
-                btn.innerHTML = `<span>Run Oculix Scan</span><i class="fa-solid fa-microchip"></i>`;
-                
-                // Populate mock diagnostic data based on what was uploaded
-                if(uploads.left) populateDiagnosis('left', 'Mild NPDR', '87.4%', 'Microaneurysms detected in peripheral zones. No immediate threat to macula.', 'text-yellow-600', 'bg-yellow-100 text-yellow-800', 'Scanned');
-                if(uploads.right) populateDiagnosis('right', 'Severe PDR', '96.2%', 'High attention weight on hemorrhage clusters and neovascularization near optic disc.', 'text-red-600', 'bg-red-100 text-red-800', 'Urgent');
-
-                document.getElementById('triage-banner').classList.remove('hidden');
-                
+                btn.innerHTML = `<span>Run XAI Diagnostic Scan</span><i class="fa-solid fa-microchip"></i>`;
                 switchTab('resultsTab');
-                setVisualMode('heatmap'); // Auto-trigger XAI view
-            }, 1500);
+                setVisualMode('heatmap');
+            }, 1200);
         }
 
-        function populateDiagnosis(eye, diagText, conf, descText, textColor, badgeColor, badgeText) {
-            const diag = document.getElementById(`diag-${eye}`);
-            diag.innerText = diagText;
-            diag.className = `text-lg font-black ${textColor}`;
-            
-            document.getElementById(`conf-${eye}`).innerText = conf;
-            document.getElementById(`conf-${eye}`).className = `text-lg font-black text-slate-800`;
-            
-            const desc = document.getElementById(`desc-${eye}`);
-            desc.innerText = descText;
-            desc.className = "text-xs text-slate-700 font-medium";
-
-            const badge = document.getElementById(`badge-${eye}`);
-            badge.innerText = badgeText;
-            badge.className = `text-[10px] font-bold px-2 py-0.5 rounded ${badgeColor}`;
-
-            // Make heatmaps available
-            const panel = document.getElementById(`result-panel-${eye}`);
-            panel.querySelector('.heatmap-layer').classList.remove('hidden');
-            panel.querySelector('.hotspot-marker').classList.remove('hidden');
-        }
-
-        // Toggle XAI Heatmap
+        // Heatmap Toggle Logic
         function setVisualMode(mode) {
-            const layers = document.querySelectorAll('.heatmap-layer');
-            const markers = document.querySelectorAll('.hotspot-marker');
+            const heatmapLayer = document.getElementById('heatmapLayer');
+            const hotspotMarker = document.getElementById('hotspotMarker');
             const toggleOriginal = document.getElementById('toggleOriginal');
             const toggleHeatmap = document.getElementById('toggleHeatmap');
 
             if (mode === 'heatmap') {
-                layers.forEach(el => el.classList.remove('opacity-0'));
-                layers.forEach(el => el.classList.add('opacity-100'));
-                
+                heatmapLayer.classList.remove('opacity-0');
+                heatmapLayer.classList.add('opacity-100');
+                hotspotMarker.classList.remove('hidden');
+
                 toggleHeatmap.classList.add('bg-white', 'shadow', 'text-slate-800');
                 toggleHeatmap.classList.remove('text-slate-500');
                 toggleOriginal.classList.remove('bg-white', 'shadow', 'text-slate-800');
                 toggleOriginal.classList.add('text-slate-500');
             } else {
-                layers.forEach(el => el.classList.add('opacity-0'));
-                layers.forEach(el => el.classList.remove('opacity-100'));
-                
+                heatmapLayer.classList.add('opacity-0');
+                heatmapLayer.classList.remove('opacity-100');
+                hotspotMarker.classList.add('hidden');
+
                 toggleOriginal.classList.add('bg-white', 'shadow', 'text-slate-800');
                 toggleOriginal.classList.remove('text-slate-500');
                 toggleHeatmap.classList.remove('bg-white', 'shadow', 'text-slate-800');
